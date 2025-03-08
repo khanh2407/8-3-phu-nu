@@ -16,10 +16,10 @@
 </head>
     <body>
  
-			<audio autoplay="autoplay" >
-					<source src="music/nhac-phu-nu.mp3" type="audio/mp3" />
-            </audio> 
-
+        <audio id="bg-music" muted playsinline>
+            <source src="music/nhac-phu-nu.mp3" type="audio/mp3" />
+            Your browser does not support the audio tag.
+        </audio>
           
 
         <div id="main">
@@ -53,6 +53,40 @@
     </script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    var audio = document.getElementById("bg-music");
+
+    // Try to play the audio after a small delay
+    setTimeout(() => {
+        audio.muted = false; // Unmute
+        audio.play().catch(error => {
+            console.log("Autoplay blocked. Showing play button.");
+            showPlayButton();
+        });
+    }, 1000);
+
+    // Show play button if autoplay fails
+    function showPlayButton() {
+        let btn = document.createElement("button");
+        btn.innerText = "Bật nhạc trước khi bấm vào trái tym nhé 🎶";
+        btn.style.position = "fixed";
+        btn.style.bottom = "20px";
+        btn.style.left = "50%";
+        btn.style.transform = "translateX(-50%)";
+        btn.style.padding = "10px 20px";
+        btn.style.fontSize = "16px";
+        btn.style.background = "#FF1493";
+        btn.style.color = "#fff";
+        btn.style.border = "none";
+        btn.style.borderRadius = "10px";
+        btn.style.cursor = "pointer";
+        btn.onclick = function () {
+            audio.play();
+            btn.remove(); // Remove button after playing
+        };
+        document.body.appendChild(btn);
+    }
+});
     (function(){
         var canvas = $('#canvas');
 		
